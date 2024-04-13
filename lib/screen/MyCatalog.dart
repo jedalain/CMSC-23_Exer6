@@ -34,9 +34,7 @@ class _MyCatalogState extends State<MyCatalog> {
               child: const Text("Add"),
 
               onPressed: () {
-                context
-                  .read<ShoppingCart>()
-                  .addItem(productsCatalog[index]);
+                context.read<ShoppingCart>().addItem(productsCatalog[index]); // add product
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("${productsCatalog[index].name} added!"),
 
