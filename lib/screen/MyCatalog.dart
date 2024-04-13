@@ -25,7 +25,7 @@ class _MyCatalogState extends State<MyCatalog> {
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            leading: const Icon(Icons.start),
+            leading: const Icon(Icons.shopping_bag),
             title: Text(
               "${productsCatalog[index].name} - ${productsCatalog[index].price}"
             ),
