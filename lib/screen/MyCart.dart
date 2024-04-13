@@ -82,7 +82,7 @@ class _MyCartState extends State<MyCart> {
               // go to checkout
               showDialog(
                 context: context, builder: (BuildContext context) {
-                  return Checkout();
+                  return const Checkout();
                 }
               )
               // Navigator.pushNamed(context, "/checkout")
