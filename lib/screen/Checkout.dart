@@ -3,7 +3,7 @@ import 'package:my_app/provider/shoppingcart_provider.dart';
 import 'package:provider/provider.dart';
 
 class Checkout extends StatefulWidget {
-  Checkout({super.key});
+  const Checkout({super.key});
 
   @override
   State<Checkout> createState() => _CheckoutState();
@@ -21,7 +21,13 @@ class _CheckoutState extends State<Checkout> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Your total is: $cartTotal"),
+            Text(
+              "Your total is: $cartTotal",
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600
+              ),
+            ),
             const Text("Thank you for shopping with us!")
           ],
         ),
@@ -29,9 +35,9 @@ class _CheckoutState extends State<Checkout> {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              context.read<ShoppingCart>().removeAll(); // empty cart
               Navigator.of(context).pop(); // close dialog box
               Navigator.of(context).pop(); // go back to catalog
+              context.read<ShoppingCart>().removeAll(); // empty cart
             },
             child: const Text('HOME'),
           ),
