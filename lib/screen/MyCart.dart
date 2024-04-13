@@ -16,53 +16,58 @@ class _MyCartState extends State<MyCart> {
     // get items and total price
     List<Item> productsInCart = context.watch<ShoppingCart>().cart;
     double cartTotal = context.watch<ShoppingCart>().cartTotal;
-    
+
     return Scaffold(
       appBar: AppBar(title: const Text("Shopping Cart")),
 
       body: productsInCart.isNotEmpty ? 
         // shopping cart has content/s
-        Column(
-          children: [
-            Flexible(
-              child: ListView.builder(
-                itemCount: productsInCart.length, // get number of products in cart
+        Padding(
+          padding: const EdgeInsets.only(bottom: 30.0),
+          child: Column(
+            children: [
+              Flexible(
+                child: ListView.builder(
+                  itemCount: productsInCart.length, // get number of products in cart
 
-                itemBuilder: (BuildContext context, int index) {
-                  var productName = productsInCart[index].name;
-                  var productPrice = productsInCart[index].price;
+                  itemBuilder: (BuildContext context, int index) {
+                    var productName = productsInCart[index].name;
+                    var productPrice = productsInCart[index].price;
 
-                  return ListTile(
-                    leading: const Icon(Icons.all_inbox_sharp),
-                    
-                    title: Text("$productName - $productPrice"),
+                    return ListTile(
+                      leading: const Icon(Icons.all_inbox_sharp),
+                      
+                      title: Text("$productName - $productPrice"),
 
-                    trailing: TextButton(
-                      child: const Icon(Icons.delete),
+                      trailing: TextButton(
+                        child: const Icon(Icons.delete),
 
-                      onPressed: () {
-                        context
-                          .read<ShoppingCart>()
-                          .removeItem(productName);
-                        
-                        setState(() {
-                            context.read<ShoppingCart>().removeItem(productName);
-                          });
+                        onPressed: () {
+                          context
+                            .read<ShoppingCart>()
+                            .removeItem(productName);
                           
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("$productName was removed from you cart."),
-                          duration: const Duration(seconds: 1, milliseconds: 100),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              ) 
-            ),
+                          setState(() {
+                              context.read<ShoppingCart>().removeItem(productName);
+                            });
+                            
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("$productName was removed from you cart."),
+                            duration: const Duration(seconds: 1, milliseconds: 100),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                ) 
+              ),
 
-            Text("Your current total is: $cartTotal")
-          ],
+              Text(
+                "Your current total is: $cartTotal"
+              ),
+            ],
+          )
         )
         :
         // shopping cart is empty
