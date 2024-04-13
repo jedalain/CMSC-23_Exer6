@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/model/Item.dart';
 import 'package:my_app/provider/shoppingcart_provider.dart';
-import 'package:my_app/screen/Checkout.dart';
 import 'package:provider/provider.dart';
 
 class MyCart extends StatefulWidget {
@@ -14,47 +13,56 @@ class MyCart extends StatefulWidget {
 class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
-    // get items added by user in the shopping cart
+    // get items and total price
     List<Item> productsInCart = context.watch<ShoppingCart>().cart;
+    double cartTotal = context.watch<ShoppingCart>().cartTotal;
     
     return Scaffold(
       appBar: AppBar(title: const Text("Shopping Cart")),
 
       body: productsInCart.isNotEmpty ? 
         // shopping cart has content/s
-        ListView.builder(
-          itemCount: productsInCart.length, // get number of products in cart
+        Column(
+          children: [
+            Flexible(
+              child: ListView.builder(
+                itemCount: productsInCart.length, // get number of products in cart
 
-          itemBuilder: (BuildContext context, int index) {
-            var productName = productsInCart[index].name;
-            var productPrice = productsInCart[index].price;
+                itemBuilder: (BuildContext context, int index) {
+                  var productName = productsInCart[index].name;
+                  var productPrice = productsInCart[index].price;
 
-            return ListTile(
-              leading: const Icon(Icons.all_inbox_sharp),
-              
-              title: Text("$productName - $productPrice"),
-
-              trailing: TextButton(
-                child: const Icon(Icons.delete),
-
-                onPressed: () {
-                  context
-                    .read<ShoppingCart>()
-                    .removeItem(productName);
-                  
-                  setState(() {
-                      context.read<ShoppingCart>().removeItem(productName);
-                    });
+                  return ListTile(
+                    leading: const Icon(Icons.all_inbox_sharp),
                     
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("$productName was removed from you cart."),
-                    duration: const Duration(seconds: 1, milliseconds: 100),
+                    title: Text("$productName - $productPrice"),
+
+                    trailing: TextButton(
+                      child: const Icon(Icons.delete),
+
+                      onPressed: () {
+                        context
+                          .read<ShoppingCart>()
+                          .removeItem(productName);
+                        
+                        setState(() {
+                            context.read<ShoppingCart>().removeItem(productName);
+                          });
+                          
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("$productName was removed from you cart."),
+                          duration: const Duration(seconds: 1, milliseconds: 100),
+                          ),
+                        );
+                      },
                     ),
                   );
-                },
-              ),
-            );
-          }
+                }
+              ) 
+            ),
+
+            Text("Your current total is: $cartTotal")
+          ],
         )
         :
         // shopping cart is empty
@@ -70,7 +78,7 @@ class _MyCartState extends State<MyCart> {
               )
             ],
           ),
-        ), 
+        ),         
 
         floatingActionButton: 
         // checkout button
@@ -80,12 +88,7 @@ class _MyCartState extends State<MyCart> {
           onPressed: () {
             productsInCart.isNotEmpty ?
               // go to checkout
-              showDialog(
-                context: context, builder: (BuildContext context) {
-                  return const Checkout();
-                }
-              )
-              // Navigator.pushNamed(context, "/checkout")
+              Navigator.pushNamed(context, "/checkout")
             :
               // show warning message
               showDialog(
