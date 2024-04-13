@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Shopping Cart",
       theme: ThemeData(
-        
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green
+        ),
       ),
       
       initialRoute: "/",
